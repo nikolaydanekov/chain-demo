@@ -3,20 +3,19 @@ package com.patterns.chain.service.processor;
 import com.patterns.chain.dto.EntityDto;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class DefaultProcessorChain implements ProcessorChain{
-    private Integer index = -1;
-    private final List<EntityProcessor> entityProcessors;
+    private final Iterator<EntityProcessor> entityProcessorIterator;
 
-    public DefaultProcessorChain(List<EntityProcessor> entityProcessors){
-        this.entityProcessors = entityProcessors;
+    public DefaultProcessorChain(Collection<EntityProcessor> entityProcessors){
+        entityProcessorIterator = entityProcessors.iterator();
     }
     @Override
     public ResponseEntity process(EntityDto entityDto) {
-        index++;
-        if(index < entityProcessors.size()){
-            return entityProcessors.get(index).processEntity(this, entityDto);
+        if(entityProcessorIterator.hasNext()){
+            return entityProcessorIterator.next().processEntity(this, entityDto);
         }
         return ResponseEntity.ok(entityDto);
     }
