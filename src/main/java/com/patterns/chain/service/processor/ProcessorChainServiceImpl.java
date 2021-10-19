@@ -4,6 +4,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.patterns.chain.service.processor.ProcessorShorName.*;
 
@@ -25,17 +26,12 @@ public class ProcessorChainServiceImpl implements ProcessorChainService{
     }
 
     @Override
-    public EntityProcessor createProcessorChain() {
-        EntityProcessor rootProcessor = new BasicProcessor();
-        EntityProcessor lastProcessor = currentProcessors.stream()
-                .map(processorShortName -> processorMap.get(processorShortName).createNewInstance())
-                .reduce(rootProcessor, (processor1, processor2) -> {
-                    processor1.setNextProcessor(processor2);
-                    return processor2;
-                });
-        //make sure there are no leftovers from precious creations
-        lastProcessor.setNextProcessor(null);
-        return rootProcessor;
+    public ProcessorChain createProcessorChain() {
+        List<EntityProcessor> entityProcessors = currentProcessors
+                .stream()
+                .map(processorMap::get)
+                .collect(Collectors.toList());
+        return new DefaultProcessorChain(entityProcessors);
     }
 
 

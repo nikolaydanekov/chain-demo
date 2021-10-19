@@ -11,15 +11,14 @@ public class NullCheckProcessor extends EntityProcessor{
 
 
     @Override
-    public ResponseEntity processEntity(EntityDto entityDto) {
+    public ResponseEntity processEntity(ProcessorChain processorChain, EntityDto entityDto) {
         log.info("Processing with NullCheckProcessor.");
         //Null check
         if(entityDto.getName() == null && entityDto.getType() == null){
             return ResponseEntity.badRequest().body(new ErrorDto("Name should not be  null"));
-        }else if(nextProcessor != null){
-            return nextProcessor.processEntity(entityDto);
+        }else {
+            return processorChain.process(entityDto);
         }
-        return ResponseEntity.ok(entityDto);
     }
 
     @Override

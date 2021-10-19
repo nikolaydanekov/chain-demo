@@ -2,6 +2,7 @@ package com.patterns.chain.service;
 
 import com.patterns.chain.dto.EntityDto;
 import com.patterns.chain.service.processor.EntityProcessor;
+import com.patterns.chain.service.processor.ProcessorChain;
 import com.patterns.chain.service.processor.ProcessorChainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class EntityServiceImpl implements EntityService{
 
     @Override
     public ResponseEntity processEntity(EntityDto entityDto) {
-        EntityProcessor entityProcessor = processorChainService.createProcessorChain();
-        return entityProcessor.processEntity(entityDto);
+        ProcessorChain entityProcessorChain = processorChainService.createProcessorChain();
+        return entityProcessorChain.process(entityDto);
     }
 }

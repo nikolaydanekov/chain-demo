@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 public class SizeCheckProcessor extends EntityProcessor{
 
     @Override
-    public ResponseEntity processEntity(EntityDto entityDto) {
+    public ResponseEntity processEntity(ProcessorChain processorChain, EntityDto entityDto) {
         log.info("Processing with SizeCheckProcessor.");
         //Type conversion
         if(entityDto.getType().contains(" ")){
@@ -19,11 +19,7 @@ public class SizeCheckProcessor extends EntityProcessor{
                 return ResponseEntity.badRequest().body(new ErrorDto("Type should have 5+ non whitespace characters"));
             }
         }
-        if(nextProcessor != null){
-            return nextProcessor.processEntity(entityDto);
-        }
-
-        return  ResponseEntity.ok(entityDto);
+        return  processorChain.process(entityDto);
     }
 
     @Override

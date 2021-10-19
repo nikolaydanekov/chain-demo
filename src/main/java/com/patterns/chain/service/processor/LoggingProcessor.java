@@ -8,17 +8,14 @@ import org.springframework.http.ResponseEntity;
 public class LoggingProcessor extends EntityProcessor{
 
     @Override
-    public ResponseEntity processEntity(EntityDto entityDto) {
+    public ResponseEntity processEntity(ProcessorChain processorChain, EntityDto entityDto) {
         log.info("Processing with LoggingProcessor.");
         ResponseEntity responseEntity = null;
         //logging
         log.error("Processing of entity: " + entityDto);
-        if(nextProcessor != null){
-            responseEntity = nextProcessor.processEntity(entityDto);
-        }
-
+        responseEntity = processorChain.process(entityDto);
         log.error("Done processing entity ");
-        return responseEntity == null ? ResponseEntity.ok(entityDto): responseEntity;
+        return responseEntity;
     }
 
     @Override
