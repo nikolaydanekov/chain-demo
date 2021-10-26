@@ -12,5 +12,6 @@ public abstract class EntityProcessor {
 
     public abstract ResponseEntity processEntity(EntityDto entityDto);
 
+    //Workaround a bug of changeable chain
     public abstract EntityProcessor createNewInstance();
 }
