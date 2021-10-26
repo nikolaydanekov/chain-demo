@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/process")
 @RequiredArgsConstructor
-public class ValidationController {
+public class ProcessingController {
     private final EntityService entityService;
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity transformEntity(@RequestBody EntityDto entityDto){
+    public ResponseEntity processEntity(@RequestBody EntityDto entityDto){
         return entityService.processEntity(entityDto);
     }
 }
