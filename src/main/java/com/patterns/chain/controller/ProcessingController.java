@@ -19,7 +19,7 @@ public class ProcessingController {
     private final ProcessorChainService processorChainService;
 
     @PostMapping(produces = "application/json")
-    public ResponseEntity transformEntity(@RequestBody EntityDto entityDto){
+    public ResponseEntity processEntity(@RequestBody EntityDto entityDto){
         return entityService.processEntity(entityDto);
     }
 
