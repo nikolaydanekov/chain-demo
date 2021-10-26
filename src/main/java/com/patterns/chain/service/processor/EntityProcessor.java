@@ -8,5 +8,6 @@ import org.springframework.http.ResponseEntity;
 public abstract class EntityProcessor {
     public abstract ResponseEntity processEntity(ProcessorChain processorChain, EntityDto entityDto);
 
+    //Workaround a bug of changeable chain
     public abstract EntityProcessor createNewInstance();
 }
